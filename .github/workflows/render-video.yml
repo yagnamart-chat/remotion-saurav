@@ -6,11 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-      - run: npm install
-      - run: cd packages/example && npm install && npx remotion render HelloWorld out/video.mp4
+          bun-version: latest
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Render video
+        run: cd packages/example && bunx remotion render HelloWorld out/video.mp4
+      
       - uses: actions/upload-artifact@v4
         with:
           name: video
